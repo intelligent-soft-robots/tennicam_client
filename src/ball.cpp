@@ -1,6 +1,6 @@
-#include "tennicam_ball/ball.hpp"
+#include "tennicam_client/ball.hpp"
 
-namespace tennicam_ball
+namespace tennicam_client
 {
   
   Ball::Ball()
@@ -9,11 +9,14 @@ namespace tennicam_ball
 
   Ball::Ball(long int ball_id,
 	     const std::array<double,3>& position,
-	     const std::array<double,3>& velocity)
+	     const std::array<double,3>& velocity,
+	     long int time_stamp_ns)
     : ball_id_{ball_id},
       position_{position},
-      velocity_{velocity} {}
-
+      velocity_{velocity},
+      time_stamp_ns_{time_stamp_ns}
+  {}
+      
   void Ball::set_position(double x, double y, double z)
   {
     position_[0]=x;
@@ -23,9 +26,9 @@ namespace tennicam_ball
 
   void Ball::set_velocity(double dx, double dy, double dz)
   {
-    velocity_[0]=x;
-    velocity_[1]=y;
-    velocity_[2]=z;
+    velocity_[0]=dx;
+    velocity_[1]=dy;
+    velocity_[2]=dz;
   }
 
   void Ball::set(const std::array<double,3>& position,
@@ -35,14 +38,24 @@ namespace tennicam_ball
     velocity_ = velocity;
   }
   
-  const std::array<double,3>& get_position() const
+  const std::array<double,3>& Ball::get_position() const
   {
     return position_;
   }
 
-  const std::array<double,3>& get_velocity() const
+  const std::array<double,3>& Ball::get_velocity() const
   {
     return velocity_;
   }
 
+  long int Ball::get_time_stamp() const
+  {
+    return time_stamp_ns_;
+  }
+
+  long int Ball::get_ball_id() const
+  {
+    return ball_id_;
+  }
+  
 }
