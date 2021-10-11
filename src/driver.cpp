@@ -57,6 +57,8 @@ namespace tennicam_client
   Driver::Driver(std::string toml_config_file)
     : config_{internal::parse_toml(toml_config_file)},
       transform_{config_.translation,config_.rotation},
+      context_{nullptr},
+      socket_{nullptr},
       ball_id_{-1},
       previous_time_stamp_{-1}
   {}
@@ -65,6 +67,8 @@ namespace tennicam_client
     : config_(config),
       transform_(config.translation,
 		 config.rotation),
+      context_{nullptr},
+      socket_{nullptr},
       ball_id_{-1},
       previous_time_stamp_{-1}
   {}
@@ -77,33 +81,26 @@ namespace tennicam_client
 	      translation,
 	      rotation},
       transform_{translation,rotation},
+      context_{nullptr},
+      socket_{nullptr},
       ball_id_{-1},
       previous_time_stamp_{-1}
   {}
 
-  Driver::~Driver()
-  {
-    stop();
-  }
-  
   void Driver::start()
     {
-      context_ = new zmq::context_t(1);
-      socket_  = new zmq::socket_t(*(context_),ZMQ_SUB);
+      context_ = std::make_unique<zmq::context_t>(1);
+      socket_  = std::make_unique<zmq::socket_t>(*(context_),ZMQ_SUB);
       std::ostringstream s;
       s << "tcp://" << config_.server_hostname << ":" << config_.server_port;
       socket_->connect(s.str());
       socket_->setsockopt(ZMQ_SUBSCRIBE, "",0 );
+
     }
       
   void Driver::stop()
-    {
-      if(socket_)
-	delete socket_;
-      if(context_)
-	delete context_;
-    }
-      
+  {}
+  
   void Driver::set(const DriverIn&){}
 
 

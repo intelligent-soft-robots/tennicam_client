@@ -128,7 +128,7 @@ TEST_F(TennicamClientTests, axis_rotation)
 }
 
 
-TEST_F(TennicamClientTests, driver_config)
+TEST_F(TennicamClientTests, parse_toml)
 {
 
   // writting tmp config file
@@ -144,11 +144,10 @@ TEST_F(TennicamClientTests, driver_config)
      << "port = 7660" << std::endl;
   os.close();
 
-  // creating driver
-  Driver driver(tmp_file.string());
+  // parsing the file
+  DriverConfig config = internal::parse_toml(tmp_file.string());
 
   // checking config properly read
-  /*DriverConfig config = driver.get_config();
   ASSERT_EQ(config.server_port,7660);
   ASSERT_TRUE(config.server_hostname==std::string("127.0.0.1"));
   for(std::size_t i=0;i<3;i++)
@@ -156,5 +155,5 @@ TEST_F(TennicamClientTests, driver_config)
       ASSERT_DOUBLE_EQ(config.translation[i],static_cast<double>(i));
       ASSERT_DOUBLE_EQ(config.rotation[i],static_cast<double>(i)*0.1);
     }
-  */
+
 }

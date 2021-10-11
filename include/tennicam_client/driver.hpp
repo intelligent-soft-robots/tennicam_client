@@ -48,13 +48,8 @@ namespace tennicam_client
     Driver(std::array<double,3> translation,
 	   std::array<double,3> rotation,
 	   std::string server_hostname, int server_port);
-
     Driver(const DriverConfig& config);
-    
     Driver(std::string toml_config_file);
-
-    ~Driver();
-    
     void start();
     void stop();
     void set(const DriverIn&);
@@ -71,8 +66,8 @@ namespace tennicam_client
 
     DriverConfig config_;
     Transform transform_;
-    zmq::socket_t* socket_;
-    zmq::context_t* context_;
+    std::unique_ptr<zmq::context_t> context_;
+    std::unique_ptr<zmq::socket_t> socket_;
     zmq::message_t reply_;
     json_helper::Jsonhelper jh_;
     long int ball_id_;
