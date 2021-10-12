@@ -12,8 +12,8 @@ namespace tennicam_client
     {
 
       translation_[0]=translation[0];
-      translation_[1]=translation[0];
-      translation_[2]=translation[0];
+      translation_[1]=translation[1];
+      translation_[2]=translation[2];
       
       arma::Mat<double> Rx(3,3,arma::fill::zeros);
       Rx(0,0)=1;
@@ -46,7 +46,6 @@ namespace tennicam_client
       tmp_[index] = v[index];
     arma::vec transformed = rotation_*tmp_ + translation_;
     return std::array<double,3>{transformed[0],transformed[1],transformed[2]};
-    return std::array<double,3>();
   }
 
 }

@@ -15,6 +15,7 @@ find_package(mpi_cmake_modules REQUIRED)
 find_package(pybind11 REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(shared_memory REQUIRED)
+find_package(real_time_tools REQUIRED)
 find_package(o80 REQUIRED)
 find_package(ZMPQQ REQUIRED)
 find_package(json_helper REQUIRED)
@@ -22,6 +23,7 @@ ament_export_dependencies(
   mpi_cmake_modules
   pybind11
   shared_memory
+  real_time_tools
   json_helper
   o80)
 
@@ -37,7 +39,9 @@ set(all_target_exports)
 add_library( ${PROJECT_NAME} SHARED
   src/ball.cpp
   src/transform.cpp
-  src/driver.cpp )
+  src/driver.cpp
+  src/dummy_server.cpp
+  src/standalone.cpp)
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
@@ -46,12 +50,34 @@ ament_target_dependencies(${PROJECT_NAME}
   shared_memory
   o80)
 target_link_libraries(${PROJECT_NAME} shared_memory::shared_memory)
+target_link_libraries(${PROJECT_NAME} real_time_tools::real_time_tools)
 target_link_libraries(${PROJECT_NAME} o80::o80)
 target_link_libraries(${PROJECT_NAME} json_helper::json_helper)
-target_link_libraries(${PROJECT_NAME} ${ZeroMQ_LIBRARY} )
+target_link_libraries(${PROJECT_NAME} ${ZeroMQ_LIBRARY})
+target_link_libraries(${PROJECT_NAME} /usr/lib/x86_64-linux-gnu/libzmqpp.so)
 ament_export_interfaces(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 list(APPEND all_targets ${PROJECT_NAME})
 list(APPEND all_target_exports export_${PROJECT_NAME})
+
+
+###################
+# Python wrappers #
+###################
+
+add_library(${PROJECT_NAME}_py MODULE srcpy/wrappers.cpp)
+target_link_libraries(${PROJECT_NAME}_py PRIVATE pybind11::module)
+target_link_libraries(${PROJECT_NAME}_py PRIVATE ${PYTHON_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_py PRIVATE ${PROJECT_NAME})
+set_target_properties(${PROJECT_NAME}_py
+  PROPERTIES PREFIX "" SUFFIX "${PYTHON_MODULE_EXTENSION}"
+  OUTPUT_NAME ${PROJECT_NAME})
+target_include_directories(
+  ${PROJECT_NAME}_py
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include> SYSTEM
+  PUBLIC ${PYTHON_INCLUDE_DIRS})
+_ament_cmake_python_get_python_install_dir()
+install(TARGETS ${PROJECT_NAME}_py DESTINATION ${PYTHON_INSTALL_DIR})
 
 
 ######################

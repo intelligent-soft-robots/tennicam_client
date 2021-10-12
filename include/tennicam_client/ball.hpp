@@ -3,11 +3,12 @@
 #include <array>
 #include "shared_memory/serializer.hpp"
 #include "shared_memory/shared_memory.hpp"
+#include "o80/sensor_state.hpp"
 
 namespace tennicam_client
 {
 
-  class Ball
+  class Ball : public o80::SensorState
   {
   public:
 
