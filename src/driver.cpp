@@ -40,22 +40,24 @@ namespace tennicam_client
       return opt_v.value();
     }
 
-    DriverConfig parse_toml(const std::string& toml_config_file)
-    {
-      toml::table config_table = toml::parse_file(toml_config_file);
-      std::array<double,3> translation = parse_toml_transform(config_table,std::string("translation"));
-      std::array<double,3> rotation = parse_toml_transform(config_table,std::string("rotation"));
-      std::string hostname = parse_toml_server<std::string>(config_table,std::string("hostname"));
-      int port = parse_toml_server<int>(config_table,std::string("port"));
-      return DriverConfig(hostname,port,translation,rotation);
-    }
   }
+
+  DriverConfig parse_toml(const std::string& toml_config_file)
+  {
+    toml::table config_table = toml::parse_file(toml_config_file);
+    std::array<double,3> translation = internal::parse_toml_transform(config_table,std::string("translation"));
+    std::array<double,3> rotation = internal::parse_toml_transform(config_table,std::string("rotation"));
+    std::string hostname = internal::parse_toml_server<std::string>(config_table,std::string("hostname"));
+    int port = internal::parse_toml_server<int>(config_table,std::string("port"));
+    return DriverConfig(hostname,port,translation,rotation);
+  }
+
   
 
   
   
   Driver::Driver(std::string toml_config_file)
-    : config_{internal::parse_toml(toml_config_file)},
+    : config_{parse_toml(toml_config_file)},
       transform_{config_.translation,config_.rotation},
       context_{nullptr},
       socket_{nullptr},

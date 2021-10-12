@@ -145,7 +145,7 @@ TEST_F(TennicamClientTests, parse_toml)
   os.close();
 
   // parsing the file
-  DriverConfig config = internal::parse_toml(tmp_file.string());
+  DriverConfig config = parse_toml(tmp_file.string());
 
   // checking config properly read
   ASSERT_EQ(config.server_port,7660);

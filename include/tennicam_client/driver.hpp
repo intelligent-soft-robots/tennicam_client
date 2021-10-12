@@ -33,11 +33,7 @@ namespace tennicam_client
   };
 
 
-  namespace internal
-  {
-    DriverConfig parse_toml(const std::string& toml_config_file);
-  }
-
+  DriverConfig parse_toml(const std::string& toml_config_file);
   
   class DriverIn{};
 

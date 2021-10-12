@@ -19,12 +19,14 @@ find_package(real_time_tools REQUIRED)
 find_package(o80 REQUIRED)
 find_package(ZMPQQ REQUIRED)
 find_package(json_helper REQUIRED)
+find_package(signal_handler REQUIRED)
 ament_export_dependencies(
   mpi_cmake_modules
   pybind11
   shared_memory
   real_time_tools
   json_helper
+  signal_handler
   o80)
 
 # prepare to export all needed targets
@@ -58,6 +60,22 @@ target_link_libraries(${PROJECT_NAME} /usr/lib/x86_64-linux-gnu/libzmqpp.so)
 ament_export_interfaces(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 list(APPEND all_targets ${PROJECT_NAME})
 list(APPEND all_target_exports export_${PROJECT_NAME})
+
+
+##############
+# Executable #
+##############
+
+add_executable(tennicam_client_dummy_server src/run_dummy_server.cpp)
+set(all_targets ${all_targets} tennicam_client_dummy_server)
+target_include_directories(
+  tennicam_client_dummy_server
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_link_libraries(tennicam_client_dummy_server ${PROJECT_NAME})
+target_link_libraries(tennicam_client_dummy_server signal_handler::signal_handler)
+       
+install(TARGETS tennicam_client_dummy_server RUNTIME DESTINATION bin)
 
 
 ###################
