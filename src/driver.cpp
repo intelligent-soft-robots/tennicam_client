@@ -14,6 +14,12 @@ namespace tennicam_client
       rotation(_rotation)
   {}
 
+  std::string DriverConfig::get_url() const
+  {
+    std::ostringstream s;
+    s << "tcp://" << server_hostname << ":" << server_port;
+    return s.str();
+  }
   
   namespace internal
   {
@@ -93,11 +99,8 @@ namespace tennicam_client
     {
       context_ = std::make_unique<zmq::context_t>(1);
       socket_  = std::make_unique<zmq::socket_t>(*(context_),ZMQ_SUB);
-      std::ostringstream s;
-      s << "tcp://" << config_.server_hostname << ":" << config_.server_port;
-      socket_->connect(s.str());
+      socket_->connect(config_.get_url());
       socket_->setsockopt(ZMQ_SUBSCRIBE, "",0 );
-
     }
       
   void Driver::stop()

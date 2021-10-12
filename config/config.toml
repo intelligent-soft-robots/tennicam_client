@@ -1,0 +1,6 @@
+[transform]
+translation = [0.1058,3.1864,0.453]
+rotation = [0,0,-0.39267]
+[server]
+hostname = "rodau"
+port = 7660

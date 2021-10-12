@@ -17,7 +17,7 @@ namespace tennicam_client
     context_ = std::make_unique<zmqpp::context>();
     auto socket_type = zmqpp::socket_type::pub;
     socket_  = std::make_unique<zmqpp::socket>(*(context_),socket_type);
-    socket_->bind(config.server_hostname);
+    socket_->bind(config.get_url());
   }
 
   DummyServer::~DummyServer()

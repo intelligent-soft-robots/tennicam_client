@@ -62,9 +62,9 @@ list(APPEND all_targets ${PROJECT_NAME})
 list(APPEND all_target_exports export_${PROJECT_NAME})
 
 
-##############
-# Executable #
-##############
+####################
+# Executable (C++) #
+####################
 
 add_executable(tennicam_client_dummy_server src/run_dummy_server.cpp)
 set(all_targets ${all_targets} tennicam_client_dummy_server)
@@ -77,6 +77,28 @@ target_link_libraries(tennicam_client_dummy_server signal_handler::signal_handle
        
 install(TARGETS tennicam_client_dummy_server RUNTIME DESTINATION bin)
 
+
+########################
+# Executables (python) #
+########################
+
+configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client
+  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client COPYONLY)
+
+
+#######################
+# Configuration files #
+#######################
+
+get_filename_component(TENNICAM_CLIENT_CONFIG_DIR config ABSOLUTE)
+# installing files in /opt/mpi-is/ if exists
+if (EXISTS "/opt/mpi-is/")
+  install(DIRECTORY
+    "${TENNICAM_CLIENT_CONFIG_DIR}" DESTINATION /opt/mpi-is/tennicam_client)
+endif()
+# installing in workspace/install
+install(DIRECTORY
+  "${TENNICAM_CLIENT_CONFIG_DIR}" DESTINATION opt/mpi-is/)
 
 ###################
 # Python wrappers #

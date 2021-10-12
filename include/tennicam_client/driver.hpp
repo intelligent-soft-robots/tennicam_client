@@ -26,6 +26,7 @@ namespace tennicam_client
 		 int server_port,
 		 std::array<double,3> translation,
 		 std::array<double,3> rotation);
+    std::string get_url() const;
     std::string server_hostname;
     int server_port;
     std::array<double,3> translation;
