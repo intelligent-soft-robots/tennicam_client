@@ -3,6 +3,7 @@
 import sys
 import time
 import logging
+import o80
 import signal_handler
 import tennicam_client
 from lightargs import BrightArgs,Positive,FileExists
@@ -65,7 +66,7 @@ def run(segment_id,frequency,config_path):
         logging.error(str(e))
 
     logging.info("stopping o80 tennicam")
-    o80_example.stop_standalone(segment_id)
+    tennicam_client.stop_standalone(segment_id)
     logging.info("exiting")
 
 

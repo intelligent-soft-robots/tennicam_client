@@ -37,6 +37,8 @@ namespace tennicam_client
     position_ = position;
     velocity_ = velocity;
   }
+
+  
   
   const std::array<double,3>& Ball::get_position() const
   {
@@ -48,6 +50,11 @@ namespace tennicam_client
     return velocity_;
   }
 
+  std::tuple<std::array<double,3>,std::array<double,3>> Ball::get() const
+  {
+    return std::make_tuple(position_,velocity_);
+  }
+  
   long int Ball::get_time_stamp() const
   {
     return time_stamp_ns_;
@@ -56,6 +63,24 @@ namespace tennicam_client
   long int Ball::get_ball_id() const
   {
     return ball_id_;
+  }
+
+  std::string Ball::to_string() const
+  {
+    std::stringstream s;
+    s << "Ball " << ball_id_ << "(" << time_stamp_ns_ << ") ";
+    s << "position: ";
+    for(const double& p : position_)
+      {
+	s << std::setprecision(3) << p << " ";
+      }
+    s << "velocity: ";
+    for(const double& v : velocity_)
+      {
+	s << std::setprecision(3) << v << " "; 
+      }
+    s << std::endl;
+    return s.str();
   }
   
 }

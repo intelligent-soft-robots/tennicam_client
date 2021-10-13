@@ -10,10 +10,10 @@ void execute(){
   std::ofstream os;
   os.open(tmp_file.c_str());
   os << "[transform]" << std::endl
-     << "translation = [0,1,2]" << std::endl
-     << "rotation = [0.0,0.1,0.2]" << std::endl
+     << "translation = [0,0,0]" << std::endl
+     << "rotation = [0.0,0.0,0.0]" << std::endl
      << "[server]" << std::endl
-     << "hostname = \"*\"" << std::endl
+     << "hostname = \"127.0.0.1\"" << std::endl
      << "port = 7660" << std::endl;
   os.close();
 

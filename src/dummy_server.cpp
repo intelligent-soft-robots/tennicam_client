@@ -36,7 +36,7 @@ namespace tennicam_client
     obs.push_back(z);
     json jframe {
 		 {"num", num},
-		 {"time", 1},
+		 {"time", o80::time_now().count()},
 		 {"proc_time", 1},
 		 {"obs", obs}
     };

@@ -57,16 +57,10 @@ namespace tennicam_client
     int port = internal::parse_toml_server<int>(config_table,std::string("port"));
     return DriverConfig(hostname,port,translation,rotation);
   }
-
-  
-
-  
   
   Driver::Driver(std::string toml_config_file)
     : config_{parse_toml(toml_config_file)},
       transform_{config_.translation,config_.rotation},
-      context_{nullptr},
-      socket_{nullptr},
       ball_id_{-1},
       previous_time_stamp_{-1}
   {}
@@ -75,8 +69,6 @@ namespace tennicam_client
     : config_(config),
       transform_(config.translation,
 		 config.rotation),
-      context_{nullptr},
-      socket_{nullptr},
       ball_id_{-1},
       previous_time_stamp_{-1}
   {}
@@ -89,16 +81,14 @@ namespace tennicam_client
 	      translation,
 	      rotation},
       transform_{translation,rotation},
-      context_{nullptr},
-      socket_{nullptr},
       ball_id_{-1},
       previous_time_stamp_{-1}
   {}
 
   void Driver::start()
     {
-      context_ = std::make_unique<zmq::context_t>(1);
-      socket_  = std::make_unique<zmq::socket_t>(*(context_),ZMQ_SUB);
+      context_ = std::make_unique<zmq:: context_t>();
+      socket_ = std::make_unique<zmq::socket_t>(*context_,ZMQ_SUB);
       socket_->connect(config_.get_url());
       socket_->setsockopt(ZMQ_SUBSCRIBE, "",0 );
     }
@@ -141,10 +131,14 @@ namespace tennicam_client
 
       // receiving the ball information from zmq.
       // zmq serialize the information into a json formatted string
-      socket_->recv(&(reply_),ZMQ_NOBLOCK);
+      bool not_received = true;
+      while(not_received)
+	{
+	  socket_->recv(&(reply_),ZMQ_NOBLOCK);
+	  not_received = (reply_.size()==0);	  
+	}
       std::string rpl = std::string(static_cast<char*>(reply_.data()), reply_.size());
       jh_.j=json::parse(rpl);
-
       // zmq is not broadcasting any information
       if (jh_.j["obs"].is_null())
 	{
@@ -156,6 +150,18 @@ namespace tennicam_client
 	  return Ball();
 	}
 
+      long int time_stamp = static_cast<long int>(jh_.j["time"]);
+
+      // if the time stamp did not change (i.e. same observation),
+      // simply returning the previous observation
+      if(time_stamp==previous_time_stamp_)
+	{
+	  return Ball(ball_id_,previous_position_,previous_velocity_,time_stamp);
+	}
+
+      // otherwise updating all
+      ball_id_++;
+      
       // parsing the json string
       std::array<double,3> position {
 	static_cast<double>(jh_.j["obs"][0]),
@@ -166,15 +172,15 @@ namespace tennicam_client
       // updating the frame 
       position = transform_.apply(position);
 
+      
       // computing velocity (finite difference)
       // (note: this updates also previous_time_stamp_
       // and previous_position_)
-      std::array<double,3> velocity = compute_velocity(static_cast<long int>(jh_.j["time"]),
-						       position);
+      previous_velocity_ = compute_velocity(time_stamp,
+					   position);
       
       
-      return Ball(ball_id_++,position,velocity,static_cast<long int>(jh_.j["time"]));
-
+      return Ball(ball_id_,position,previous_velocity_,time_stamp);
     }
 
   const DriverConfig& Driver::get_config() const

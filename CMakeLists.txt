@@ -84,6 +84,8 @@ install(TARGETS tennicam_client_dummy_server RUNTIME DESTINATION bin)
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client
   ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client COPYONLY)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_print
+  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_print COPYONLY)
 
 
 #######################

@@ -5,6 +5,7 @@
 #include <chrono>
 #include <zmq.hpp>
 #include <zmqpp/zmqpp.hpp>
+#include "o80/time.hpp"
 #include "json_helper/json_helper.hpp"
 #include "real_time_tools/thread.hpp"
 #include "tennicam_client/driver.hpp"

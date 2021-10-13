@@ -7,7 +7,9 @@
 #include <cmath>
 #include <chrono>
 #include <zmq.hpp>
+#include <zmqpp/zmqpp.hpp>
 #include <filesystem>
+#include <memory>
 #include "o80/driver.hpp"
 #include "json_helper/json_helper.hpp"
 #include "tennicam_client/transform.hpp"

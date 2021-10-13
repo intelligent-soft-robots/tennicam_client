@@ -1,6 +1,8 @@
 #pragma once
 
 #include <array>
+#include <iomanip>
+#include <sstream> 
 #include "shared_memory/serializer.hpp"
 #include "shared_memory/shared_memory.hpp"
 #include "o80/sensor_state.hpp"
@@ -23,8 +25,10 @@ namespace tennicam_client
 	     const std::array<double,3>& velocity);
     const std::array<double,3>& get_position() const;
     const std::array<double,3>& get_velocity() const;
+    std::tuple<std::array<double,3>,std::array<double,3>> get() const;
     long int get_ball_id() const;
     long int get_time_stamp() const;
+    std::string to_string() const;
     
   public:
 
