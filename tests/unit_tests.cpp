@@ -158,3 +158,58 @@ TEST_F(TennicamClientTests, parse_toml)
 
 }
 
+
+TEST_F(TennicamClientTests, read_write_transform)
+{
+
+  const std::string segment_id = "tennicam_client_tests";
+  shared_memory::clear_shared_memory(segment_id);
+
+  
+  // writting tmp config file
+  std::filesystem::path tmp_file = std::filesystem::temp_directory_path();
+  tmp_file /= "tennicam_client_tests_tmp";
+  std::ofstream os;
+  os.open(tmp_file.c_str());
+  os << "[transform]" << std::endl
+     << "translation = [0,1,2]" << std::endl
+     << "rotation = [0.0,0.1,0.2]" << std::endl
+     << "[server]" << std::endl
+     << "hostname = \"127.0.0.1\"" << std::endl
+     << "port = 7660" << std::endl;
+  os.close();
+
+  std::array<double,3> translation;
+  translation[0]=0,translation[1]=1,translation[2]=2;
+  std::array<double,3> rotation;
+  rotation[0]=3,rotation[1]=4,rotation[2]=5;
+
+  tennicam_client::write_transform_to_memory(segment_id,translation,rotation);
+
+  std::tuple<std::array<double,3>,
+	     std::array<double,3>> t = tennicam_client::read_transform_from_memory(segment_id);
+
+  std::array<double,3> new_trans = std::get<0>(t);
+  std::array<double,3> new_rot = std::get<1>(t);
+  
+  for(std::size_t index=0 ; index<3; index++)
+    {
+      ASSERT_DOUBLE_EQ(translation[index],new_trans[index]);
+      ASSERT_DOUBLE_EQ(rotation[index],new_rot[index]);
+    }
+
+  tennicam_client::update_transform_config_file(tmp_file.c_str(),
+						new_trans,new_rot);
+
+  tennicam_client::DriverConfig config = tennicam_client::parse_toml(tmp_file.c_str());
+  
+  for(std::size_t index=0 ; index<3; index++)
+    {
+      ASSERT_DOUBLE_EQ(translation[index],config.translation[index]);
+      ASSERT_DOUBLE_EQ(rotation[index],config.rotation[index]);
+    }
+
+  ASSERT_EQ(config.server_port,7660);
+  ASSERT_STREQ(std::string("127.0.0.1").c_str(),config.server_hostname.c_str());
+  
+}

@@ -14,30 +14,11 @@
 #include "json_helper/json_helper.hpp"
 #include "tennicam_client/transform.hpp"
 #include "tennicam_client/ball.hpp"
-#include "tennicam_client/toml/toml.hpp"
+#include "tennicam_client/driver_config.hpp"
 
 namespace tennicam_client
 {
 
-  class DriverConfig
-  {
-  public:
-    DriverConfig()
-      : server_hostname{"undefined"}{}
-    DriverConfig(std::string server_hostname,
-		 int server_port,
-		 std::array<double,3> translation,
-		 std::array<double,3> rotation);
-    std::string get_url() const;
-    std::string server_hostname;
-    int server_port;
-    std::array<double,3> translation;
-    std::array<double,3> rotation;
-  };
-
-
-  DriverConfig parse_toml(const std::string& toml_config_file);
-  
   class DriverIn{};
 
   class Driver : public o80::Driver<DriverIn, Ball>
@@ -53,8 +34,9 @@ namespace tennicam_client
     void stop();
     void set(const DriverIn&);
     Ball get();
-
     const DriverConfig& get_config() const;
+    void set_active_config_read(std::string segment_id);
+    
     
   private:
 
@@ -73,6 +55,9 @@ namespace tennicam_client
     long int previous_time_stamp_;
     std::array<double,3> previous_position_;
     std::array<double,3> previous_velocity_;
+    bool active_transform_read_;
+    std::string active_transform_segment_id_;
+    
   };
   
 }  

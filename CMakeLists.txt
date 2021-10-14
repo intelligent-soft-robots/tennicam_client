@@ -42,6 +42,7 @@ add_library( ${PROJECT_NAME} SHARED
   src/ball.cpp
   src/transform.cpp
   src/driver.cpp
+  src/driver_config.cpp
   src/dummy_server.cpp
   src/standalone.cpp)
 target_include_directories(

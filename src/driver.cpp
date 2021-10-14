@@ -3,61 +3,6 @@
 namespace tennicam_client
 {
 
-
-  DriverConfig::DriverConfig(std::string _server_hostname,
-			     int _server_port,
-			     std::array<double,3> _translation,
-			     std::array<double,3> _rotation)
-    : server_hostname(_server_hostname),
-      server_port(_server_port),
-      translation(_translation),
-      rotation(_rotation)
-  {}
-
-  std::string DriverConfig::get_url() const
-  {
-    std::ostringstream s;
-    s << "tcp://" << server_hostname << ":" << server_port;
-    return s.str();
-  }
-  
-  namespace internal
-  {
-    static std::array<double,3> parse_toml_transform(const toml::table& config_table, const std::string& field)
-    {
-      std::array<double,3> a;
-      toml::array translation_toml = *config_table["transform"][field].as_array();
-      for(std::size_t index=0 ; index<3; index++)
-	{
-	  a[index]=*(translation_toml[index].value<double>());
-	}
-      return a;
-    }
-
-    template<class T>
-    static T parse_toml_server(const toml::table& config_table, const std::string& field)
-    {
-      std::optional<T> opt_v = config_table["server"][field].value<T>();
-      if(!opt_v.has_value())
-	{
-	  throw std::invalid_argument(std::string("failed to find node server/") +
-				      field);
-	}
-      return opt_v.value();
-    }
-
-  }
-
-  DriverConfig parse_toml(const std::string& toml_config_file)
-  {
-    toml::table config_table = toml::parse_file(toml_config_file);
-    std::array<double,3> translation = internal::parse_toml_transform(config_table,std::string("translation"));
-    std::array<double,3> rotation = internal::parse_toml_transform(config_table,std::string("rotation"));
-    std::string hostname = internal::parse_toml_server<std::string>(config_table,std::string("hostname"));
-    int port = internal::parse_toml_server<int>(config_table,std::string("port"));
-    return DriverConfig(hostname,port,translation,rotation);
-  }
-  
   Driver::Driver(std::string toml_config_file)
     : config_{parse_toml(toml_config_file)},
       transform_{config_.translation,config_.rotation},
@@ -129,6 +74,15 @@ namespace tennicam_client
   Ball Driver::get()
     {
 
+      // if activate_transform_read_ is true, then updating
+      // the transform with values written in the shared memory
+      // by the user
+      if(active_transform_read_)
+	{
+	  std::tuple<std::array<double,3>,std::array<double,3>> t = read_transform_from_memory(active_transform_segment_id_);
+	  transform_ = Transform(std::get<0>(t),std::get<1>(t));
+	}
+      
       // receiving the ball information from zmq.
       // zmq serialize the information into a json formatted string
       bool not_received = true;
@@ -186,6 +140,12 @@ namespace tennicam_client
   const DriverConfig& Driver::get_config() const
   {
     return config_;
+  }
+
+  void Driver::set_active_config_read(std::string segment_id)
+  {
+    active_transform_read_=true;
+    active_transform_segment_id_=segment_id;
   }
   
 }

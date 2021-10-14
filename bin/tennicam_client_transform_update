@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+
+
+from tennicam_client import Transform
+
+
+TENNICAM_CLIENT_SEGMENT_ID = "tennicam_client"
+TENNICAM_CLIENT_CONFIG_PATH = "/opt/mpi-is/tennicam_client/config/config.toml"
+
+def _update_transform(segment_id: str, dim: int, value:float, translation: bool):
+    dim = int(dim)
+    value=float(value)
+    transform = Transform.read_from_memory(segment_id,
+                                           "transform")
+    if translation:
+        transform[0][dim]=value
+    else:
+        transform[1][dim]=value
+    Transform.write_in_memory(segment_id,
+                              transform[0],
+                              transform[1])
+
+def _update_translation(segment_id: str, dim: int, value:float):
+    _update_transform(segment_id,dim,value,True)
+
+
+def _update_rotation(segment_id: str, dim: int, value:float):
+    _update_transform(segment_id,dim,value,False)
+
+
+def _print_transform(transform):
+    print("\ttransform:")
+    print("\t\ttranslation:",transform[0])
+    print("\t\trotation:",transform[1])
+
+def user_update_transform(segment_id, config_file_path):
+
+    transform = Transform.read_from_memory(segment_id,
+                                           "transform")
+    _print_transform(transform)
+    
+    translation = input("enter 0 to change translation, 1 to change rotation")
+    translation = int(translation)
+    if (translation not in (0,1)):
+        raise ValueError("value should be 0 or 1")
+
+    dim = input("enter dimension to change (0, 1 or 2)")
+    dim = int(dim)
+    if (dim not in (0,1,2)):
+        raise ValueError("value should be 0, 1 or 2")
+
+    value = input("enter value")
+    value = float(value)
+
+    if translation==0:
+        _update_translation(segment_id,dim,value)
+    else:
+        _update_rotation(segment_id,dim,value)
+    
+    transform = Transform.read_from_memory(segment_id,
+                                           "transform")
+    _print_transform(transform)
+    
+    save = input("type 1 if you wish to save this transform")
+    save = int(save)
+    if save==1:
+        update_transform_config_file(config_file_path,
+                                     transform[0],
+                                     transform[1])
+
+    print("transform saved in",config_file_path)
+    
+    
+if __name__ == "__main__":
+    global TENNICAM_CLIENT_SEGMENT_ID
+    global TENNICAM_CLIENT_CONFIG_PATH
+    user_update_transform(TENNICAM_CLIENT_SEGMENT_ID,TENNICAM_CLIENT_CONFIG_PATH)
+
+    
+
+
+    
