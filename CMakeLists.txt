@@ -87,6 +87,10 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client
   ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client COPYONLY)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_print
   ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_print COPYONLY)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_display
+  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_display COPYONLY)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_transform_update
+  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_transform_update COPYONLY)
 
 
 #######################

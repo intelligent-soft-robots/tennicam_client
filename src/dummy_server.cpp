@@ -67,9 +67,9 @@ namespace tennicam_client
     while(running_)
       {
 	x+=0.001;
-	y+=0.0001;
-	z-=0.00001;
-	perform(num++,x,y,z);
+	y+=0.001;
+	z-=0.0005;
+	perform(num++,cos(x),sin(y),cos(z));
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
       }
   }

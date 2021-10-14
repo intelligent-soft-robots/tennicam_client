@@ -3,33 +3,47 @@
 namespace tennicam_client
 {
 
-  Driver::Driver(std::string toml_config_file)
+  Driver::Driver(std::string toml_config_file, std::string active_transform_segment_id)
     : config_{parse_toml(toml_config_file)},
       transform_{config_.translation,config_.rotation},
       ball_id_{-1},
-      previous_time_stamp_{-1}
-  {}
+      previous_time_stamp_{-1},
+      active_transform_read_{false},
+      active_transform_segment_id_{active_transform_segment_id}
+  {
+    if(!active_transform_segment_id_.size()==0)
+      {
+	active_transform_read_=true;
+	write_transform_to_memory(active_transform_segment_id_,
+				  config_.translation,
+				  config_.rotation);
+      }
+
+  }
 
   Driver::Driver(const DriverConfig& config)
     : config_(config),
       transform_(config.translation,
 		 config.rotation),
       ball_id_{-1},
-      previous_time_stamp_{-1}
+      previous_time_stamp_{-1},
+      active_transform_read_{false}
   {}
   
   Driver::Driver(std::array<double,3> translation,
 		 std::array<double,3> rotation,
-	   std::string server_hostname, int server_port)
+		 std::string server_hostname, int server_port)
     : config_{server_hostname,
 	      server_port,
 	      translation,
 	      rotation},
       transform_{translation,rotation},
       ball_id_{-1},
-      previous_time_stamp_{-1}
+      previous_time_stamp_{-1},
+      active_transform_read_{false}
   {}
 
+  
   void Driver::start()
     {
       context_ = std::make_unique<zmq:: context_t>();
@@ -74,7 +88,7 @@ namespace tennicam_client
   Ball Driver::get()
     {
 
-      // if activate_transform_read_ is true, then updating
+      // if active_transform_read_ is true, then updating
       // the transform with values written in the shared memory
       // by the user
       if(active_transform_read_)

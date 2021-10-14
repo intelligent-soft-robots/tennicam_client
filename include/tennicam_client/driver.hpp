@@ -29,19 +29,20 @@ namespace tennicam_client
 	   std::array<double,3> rotation,
 	   std::string server_hostname, int server_port);
     Driver(const DriverConfig& config);
-    Driver(std::string toml_config_file);
+    Driver(std::string toml_config_file,std::string active_transform_segment_id);
     void start();
     void stop();
     void set(const DriverIn&);
     Ball get();
     const DriverConfig& get_config() const;
     void set_active_config_read(std::string segment_id);
-    
-    
+
   private:
 
     // compute the velocity using finite differences
     std::array<double,3> compute_velocity(long int time_stamp, const std::array<double,3>& position);
+
+    void init_active_transform_read() const;
     
   private:
 

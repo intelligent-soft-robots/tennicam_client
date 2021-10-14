@@ -55,8 +55,9 @@ PYBIND11_MODULE(tennicam_client, m)
   add_observation(m);
   // o80 standalone
   o80::create_standalone_python_bindings<tennicam_client::Driver,
-                                           tennicam_client::Standalone,
-					   std::string> // argument for the driver (path to toml file)
-					   (m);
+					 tennicam_client::Standalone,
+					 std::string, // argument for the driver (path to toml file)
+					 std::string>  // argument for the driver (active transform)
+    (m);
 
 }

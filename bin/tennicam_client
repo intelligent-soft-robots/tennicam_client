@@ -30,13 +30,17 @@ def configure():
                       TENNICAM_CLIENT_DEFAULT_FREQUENCY,
                       float,
                       [Positive()])
+    config.add_option("active_transform",
+                      False,
+                      "if true, the driver will read transform parameter at each iteration",
+                      bool)
     change_all = False
     config.dialog(change_all)
     print()
     return config
 
 
-def run(segment_id,frequency,config_path):
+def run(segment_id,frequency,config_path,active_transform):
 
     log_handler = logging.StreamHandler(sys.stdout)
     logging.basicConfig(
@@ -50,10 +54,15 @@ def run(segment_id,frequency,config_path):
     o80.clear_shared_memory(segment_id)
 
     logging.info("starting o80 standalone with frequency {}".format(frequency))
+    if active_transform:
+        active_transform_segment_id = segment_id
+    else:
+        active_transform_segment_id = ""
     tennicam_client.start_standalone(segment_id,
                                      frequency,
                                      False,
-                                     config_path)
+                                     config_path,
+                                     active_transform_segment_id)
 
     logging.info("running, ctrl+c for exiting")
     signal_handler.init() # for detecting ctrl+c
@@ -73,4 +82,4 @@ def run(segment_id,frequency,config_path):
     
 if __name__ == "__main__":
     config = configure() 
-    run(config.segment_id,config.frequency,config.config_path)
+    run(config.segment_id,config.frequency,config.config_path,config.active_transform)
