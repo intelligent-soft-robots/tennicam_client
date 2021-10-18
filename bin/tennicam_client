@@ -15,7 +15,7 @@ import tennicam_client
 from lightargs import BrightArgs, Positive, FileExists
 
 TENNICAM_CLIENT_DEFAULT_SEGMENT_ID = "tennicam_client"
-TENNICAM_CLIENT_DEFAULT_CONFIG = "/opt/mpi-is/tennicam_client/config.toml"
+TENNICAM_CLIENT_DEFAULT_CONFIG = "/opt/mpi-is/tennicam_client/config/config.toml"
 TENNICAM_CLIENT_DEFAULT_FREQUENCY = 200.0
 
 
