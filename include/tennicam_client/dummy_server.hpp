@@ -13,12 +13,28 @@
 
 namespace tennicam_client
 {
+/**
+ * @brief zmq publisher created for the purpose of testing Driver.
+ * Similarly to tennicam, an instance of DummyServer publishes
+ * ball information.
+ */
 class DummyServer
 {
 public:
+    /**
+     * @brief Instantiate a DummyDriver using the hostname
+     * and port attributes of the configuration.
+     */
+
     DummyServer(const DriverConfig& config);
     ~DummyServer();
+    /**
+     * @brief spawns a thread that publishes balls
+     */
     void start();
+    /**
+     * @brief stops the thread
+     */
     void stop();
     void run();
 

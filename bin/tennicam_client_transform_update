@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+"""
+Implements a dialog that allows to update the transform applied by the driver
+to the ball before they are written in the (o80) shared memory.
+tennicam_client needs to be started in active mode (using the starting dialog
+of tennicam_client)
+"""
+
 
 import tennicam_client
 

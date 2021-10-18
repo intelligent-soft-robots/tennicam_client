@@ -9,10 +9,29 @@
 
 namespace tennicam_client
 {
+/**
+ * @brief A ball characterized by its 3d position and velocity,
+ * a (unique) ball_id and a time stamp.
+ *
+ * Ball inherit from o80::SensorState, allowing it to be a state
+ * in the o80 framework (see: https://github.com/intelligent-soft-robots/o80)
+
+ * Instances of balls are also serializable and writable in shared
+ * memory (see: https://github.com/machines-in-motion/shared_memory)
+ */
+
 class Ball : public o80::SensorState
 {
 public:
+    /**
+     * @brief constuct a ball with ball_id to value -1,
+     * i.e. "invalid ball". The other attributes are not
+     * defined.
+     */
     Ball();
+    /**
+     * @brief: straightforward constructor
+     */
     Ball(long int ball_id,
          const std::array<double, 3>& position,
          const std::array<double, 3>& velocity,
@@ -21,10 +40,19 @@ public:
     void set_velocity(double dx, double dy, double dz);
     void set(const std::array<double, 3>& position,
              const std::array<double, 3>& velocity);
+
     const std::array<double, 3>& get_position() const;
     const std::array<double, 3>& get_velocity() const;
+    /**
+     * returns tuple encapsulating the position (index 0) and the velocity
+     * (index 1)
+     */
+
     std::tuple<std::array<double, 3>, std::array<double, 3>> get() const;
     long int get_ball_id() const;
+    /**
+     * returns the time stamp, in nanoseconds
+     */
     long int get_time_stamp() const;
     std::string to_string() const;
 

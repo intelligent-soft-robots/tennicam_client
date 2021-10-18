@@ -9,6 +9,12 @@
 
 namespace tennicam_client
 {
+/**
+ * @brief o80 standalone over the Driver, i.e. will
+ * an instance of Standalone will instantiate an instance of
+ * o80 backend that will subscribe to tennicam and write
+ * corresponding ball information in the shared memory.
+ */
 class Standalone
     : public o80::Standalone<TENNICAM_CLIENT_QUEUE_SIZE,  // Queue size
                              1,                           // nb dofs

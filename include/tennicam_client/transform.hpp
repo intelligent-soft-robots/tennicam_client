@@ -7,11 +7,20 @@
 
 namespace tennicam_client
 {
+/**
+ * @brief represents a 3d transform (translation and rotation)
+ */
 class Transform
 {
 public:
+    /**
+     * rotation: array of 3 angles in radians
+     */
     Transform(std::array<double, 3> translation,
               std::array<double, 3> rotation);
+    /**
+     * Apply the transform
+     */
     std::array<double, 3> apply(const std::array<double, 3>& v) const;
 
 private:

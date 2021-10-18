@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+"""
+Print in a terminal the information of the balls
+published by tennicam.
+Required for this executable:
+- in another terminal: 'tennicam_client'
+"""
+
 import sys
 import time
 import logging

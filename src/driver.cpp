@@ -20,6 +20,11 @@ Driver::Driver(std::string toml_config_file,
     }
 }
 
+Driver::Driver(std::string toml_config_file)
+    : Driver(toml_config_file, std::string(""))
+{
+}
+
 Driver::Driver(const DriverConfig& config)
     : config_(config),
       transform_(config.translation, config.rotation),

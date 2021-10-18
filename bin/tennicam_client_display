@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+"""
+Display in a mujoco simulated environment the ball
+as published by tennicam.
+Required for this executable:
+- in a first terminal: 'tennicam_client'
+- in second terminal :'pam_mujoco tennicam_client_display'
+"""
+
 import sys
 import time
 import logging
