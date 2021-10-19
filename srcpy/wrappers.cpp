@@ -42,7 +42,7 @@ void add_observation(pybind11::module& m)
         });
 }
 
-PYBIND11_MODULE(tennicam_client, m)
+PYBIND11_MODULE(tennicam_client_wrp, m)
 {
     // adding update_transform_config_file, read_transform_from_memory
     // and write transform to memory

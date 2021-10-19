@@ -8,14 +8,10 @@ Required for this executable:
 - in second terminal :'pam_mujoco tennicam_client_display'
 """
 
-import sys
-import time
-import logging
 import o80
 import signal_handler
 import tennicam_client
 import pam_mujoco
-from lightargs import BrightArgs, Positive, FileExists
 
 
 # required for this executable:
