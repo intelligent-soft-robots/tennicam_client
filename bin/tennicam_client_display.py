@@ -73,7 +73,7 @@ def run():
             # imposing frequency
             frequency_manager.wait()
     except (KeyboardInterrupt, SystemExit):
-        pass
+        return
 
 
 if __name__ == "__main__":

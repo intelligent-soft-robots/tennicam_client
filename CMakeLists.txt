@@ -17,7 +17,8 @@ find_package(ament_cmake_python REQUIRED)
 find_package(shared_memory REQUIRED)
 find_package(real_time_tools REQUIRED)
 find_package(o80 REQUIRED)
-find_package(ZMPQQ REQUIRED)
+find_package(ZeroMQ REQUIRED)
+find_package(ZeroMQPP REQUIRED)
 find_package(json_helper REQUIRED)
 find_package(signal_handler REQUIRED)
 ament_export_dependencies(
@@ -57,7 +58,7 @@ target_link_libraries(${PROJECT_NAME} real_time_tools::real_time_tools)
 target_link_libraries(${PROJECT_NAME} o80::o80)
 target_link_libraries(${PROJECT_NAME} json_helper::json_helper)
 target_link_libraries(${PROJECT_NAME} ${ZeroMQ_LIBRARY})
-target_link_libraries(${PROJECT_NAME} /usr/lib/x86_64-linux-gnu/libzmqpp.so)
+target_link_libraries(${PROJECT_NAME} ZeroMQPP::ZeroMQPP)
 ament_export_interfaces(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 list(APPEND all_targets ${PROJECT_NAME})
 list(APPEND all_target_exports export_${PROJECT_NAME})
@@ -83,14 +84,13 @@ install(TARGETS tennicam_client_dummy_server RUNTIME DESTINATION bin)
 # Executables (python) #
 ########################
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client
-  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client COPYONLY)
-configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_print
-  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_print COPYONLY)
-configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_display
-  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_display COPYONLY)
-configure_file(${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_transform_update
-  ${CMAKE_INSTALL_PREFIX}/bin/tennicam_client_transform_update COPYONLY)
+install_scripts(
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client.py
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_print.py
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_display.py
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_transform_update.py
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
+  )
 
 
 #######################

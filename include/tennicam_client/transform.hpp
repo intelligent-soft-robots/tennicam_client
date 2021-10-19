@@ -14,7 +14,7 @@ class Transform
 {
 public:
     /**
-     * rotation: array of 3 angles in radians
+     * rotation: array of 3 angles in radians (Euler angles)
      */
     Transform(std::array<double, 3> translation,
               std::array<double, 3> rotation);

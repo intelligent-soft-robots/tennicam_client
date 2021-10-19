@@ -51,7 +51,7 @@ public:
      * https://github.com/intelligent-soft-robots/tennicam_client/blob/master/config/config.toml
      */
     Driver(std::string toml_config_file);
-    /* Instantiate a driver in "active transform mode", i.e. at each iteration
+  /** @brief Instantiate a driver in "active transform mode", i.e. at each iteration
      * the driver will read the corresponding shared memory segment for new
      * transformation parameter, allowing for runtime tuning of the transform,
      * as described here:
@@ -76,7 +76,7 @@ public:
     Ball get();
     const DriverConfig& get_config() const;
     /**
-     * Activate the "active transform mode"
+     * @brief Activate the "active transform mode"
      */
     void set_active_config_read(std::string segment_id);
 
