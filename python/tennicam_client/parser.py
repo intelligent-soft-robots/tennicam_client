@@ -15,7 +15,7 @@ def parse(filepath: pathlib.Path) -> typing.Generator[Entry, None, bool]:
     
     Returns:
         tuples: (ball_id: int, time_stamp: int, position: 3d tuple, velocity: 3d tuple)
-        time_stamp is in milliseconds.
+        time_stamp is in nanoseconds.
         ball_id is -1 if invalid ball (ball not detected by the visual tracking)
     """
 
