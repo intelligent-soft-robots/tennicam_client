@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-import pathlib
-import signal_handler
-import tennicam_client
-from lightargs import BrightArgs
-
 """
 Dump the output of tennicam_client into a file,
 with format for each line:
@@ -16,6 +11,13 @@ with:
 - velocity: 3d tuple
 """
 
+
+import pathlib
+import signal_handler
+import tennicam_client
+from lightargs import BrightArgs
+
+
 TENNICAM_CLIENT_DEFAULT_SEGMENT_ID = "tennicam_client"
 TENNICAM_CLIENT_DEFAULT_FOLDER = pathlib.Path("/tmp")
 
@@ -26,7 +28,7 @@ def _unique_path(
     """
     returns the path to a file /directory/tennicam_{x} that does not exists yet
     """
-    
+
     counter = 0
     while True:
         counter += 1
@@ -41,7 +43,7 @@ def _run(segment_id: str, filepath: pathlib.Path):
     ball observations and dumping a corresponding 
     string in filepath.
     """
-    
+
     frontend = tennicam_client.FrontEnd(segment_id)
     iteration = frontend.latest().get_iteration()
 
@@ -65,7 +67,7 @@ def _configure() -> BrightArgs:
     """
     Configuration dialog
     """
-    
+
     global TENNICAM_CLIENT_DEFAULT_SEGMENT_ID
     global TENNICAM_CLIENT_DEFAULT_FOLDER
     config = BrightArgs("tennicam logger")

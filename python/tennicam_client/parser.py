@@ -1,9 +1,9 @@
 import typing
 import pathlib
 
-Position = typing.TypeVar("Position", float, float, float)
-Velocity = typing.TypeVar("Velocity", float, float, float)
-Entry = typing.TypeVar("Entry", int, int, Position, Velocity)
+Position = typing.Sequence[float]
+Velocity = typing.Sequence[float]
+Entry = typing.Tuple[int, int, Position, Velocity]
 
 
 def parse(filepath: pathlib.Path) -> typing.Generator[Entry, None, bool]:
@@ -30,5 +30,5 @@ def parse(filepath: pathlib.Path) -> typing.Generator[Entry, None, bool]:
                 yield eval(line)
             except:
                 return False
-                
+
     return True
