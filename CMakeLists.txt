@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED on)
 ################
 
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(mpi_cmake_modules REQUIRED)
 find_package(pybind11 REQUIRED)
 find_package(ament_cmake_python REQUIRED)
@@ -89,6 +90,8 @@ install_scripts(
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_print.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_display.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_transform_update.py
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_logger.py
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_replay.py
   DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
   )
 
@@ -107,6 +110,7 @@ endif()
 install(DIRECTORY
   "${TENNICAM_CLIENT_CONFIG_DIR}" DESTINATION opt/mpi-is/)
 
+
 ###################
 # Python wrappers #
 ###################
@@ -117,7 +121,7 @@ target_link_libraries(${PROJECT_NAME}_py PRIVATE ${PYTHON_LIBRARIES})
 target_link_libraries(${PROJECT_NAME}_py PRIVATE ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME}_py
   PROPERTIES PREFIX "" SUFFIX "${PYTHON_MODULE_EXTENSION}"
-  OUTPUT_NAME ${PROJECT_NAME})
+  OUTPUT_NAME ${PROJECT_NAME}_wrp)
 target_include_directories(
   ${PROJECT_NAME}_py
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -125,6 +129,13 @@ target_include_directories(
   PUBLIC ${PYTHON_INCLUDE_DIRS})
 _ament_cmake_python_get_python_install_dir()
 install(TARGETS ${PROJECT_NAME}_py DESTINATION ${PYTHON_INSTALL_DIR})
+
+
+######################
+# Python Native code #
+######################
+
+ament_python_install_package(${PROJECT_NAME} PACKAGE_DIR python/${PROJECT_NAME})
 
 
 ######################

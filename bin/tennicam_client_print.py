@@ -7,13 +7,8 @@ Required for this executable:
 - in another terminal: 'tennicam_client'
 """
 
-import sys
-import time
-import logging
-import o80
 import signal_handler
 import tennicam_client
-from lightargs import BrightArgs, Positive, FileExists
 
 TENNICAM_CLIENT_DEFAULT_SEGMENT_ID = "tennicam_client"
 
