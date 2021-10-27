@@ -57,7 +57,7 @@ def _configure() -> BrightArgs:
 def _get_handle() -> pam_mujoco.MujocoHandle:
     """
     Configures mujoco to have a controllable ball
-    and returns the handle 
+    and returns the handle
     """
 
     global TENNICAM_CLIENT_MUJOCO_ID

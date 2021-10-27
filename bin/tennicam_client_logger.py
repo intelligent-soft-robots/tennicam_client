@@ -40,7 +40,7 @@ def _unique_path(
 def _run(segment_id: str, filepath: pathlib.Path):
     """
     Creates an o80 frontend and uses it to get all
-    ball observations and dumping a corresponding 
+    ball observations and dumping a corresponding
     string in filepath.
     """
 

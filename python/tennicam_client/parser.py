@@ -9,10 +9,10 @@ Entry = typing.Tuple[int, int, Position, Velocity]
 def parse(filepath: pathlib.Path) -> typing.Generator[Entry, None, bool]:
     """
     Parse the file and yield information about the ball
-    
+
     Args:
         filepath: absolute path of a file generated using tennicam_client_logger
-    
+
     Returns:
         tuples: (ball_id: int, time_stamp: int, position: 3d tuple, velocity: 3d tuple)
         time_stamp is in nanoseconds.
