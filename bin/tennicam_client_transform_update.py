@@ -73,13 +73,17 @@ def user_update_transform(segment_id, config_file_path):
     print()
 
     save = input("\ttype 1 if you wish to save this transform: ")
-    save = int(save)
-    if save == 1:
-        tennicam_client.update_transform_config_file(
-            config_file_path, transform[0], transform[1]
-        )
-        print()
-        print("transform saved in", config_file_path)
+    try :
+        save = int(save)
+    except:
+        pass
+    else:
+        if save == 1:
+            tennicam_client.update_transform_config_file(
+                config_file_path, transform[0], transform[1]
+            )
+            print()
+            print("transform saved in", config_file_path)
 
     print()
 
