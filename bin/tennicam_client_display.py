@@ -26,11 +26,12 @@ def _get_handle():
     ball = pam_mujoco.MujocoItem(
         "ball", control=pam_mujoco.MujocoItem.CONSTANT_CONTROL, color=(1, 0, 0, 1)
     )
+    table = pam_mujoco.MujocoTable("table")
     graphics = True
     accelerated_time = False
     handle = pam_mujoco.MujocoHandle(
         "tennicam_client_display",
-        table=True,
+        table=table,
         balls=(ball,),
         graphics=graphics,
         accelerated_time=accelerated_time,
