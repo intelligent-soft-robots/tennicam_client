@@ -51,10 +51,10 @@ public:
      * https://github.com/intelligent-soft-robots/tennicam_client/blob/master/config/config.toml
      */
     Driver(std::string toml_config_file);
-  /** @brief Instantiate a driver in "active transform mode", i.e. at each iteration
-     * the driver will read the corresponding shared memory segment for new
-     * transformation parameter, allowing for runtime tuning of the transform,
-     * as described here:
+    /** @brief Instantiate a driver in "active transform mode", i.e. at each
+     * iteration the driver will read the corresponding shared memory segment
+     * for new transformation parameter, allowing for runtime tuning of the
+     * transform, as described here:
      * https://intelligent-soft-robots.github.io/pam_documentation/C5_visual_ball_tracking.html#how-to-fix-the-transform-of-the-ball
      * Note that this slows the driver down, so it is recommanded to call this
      * constructor only if the transform requires to be tuned.

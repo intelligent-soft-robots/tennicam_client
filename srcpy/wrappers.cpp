@@ -25,21 +25,18 @@ void add_observation(pybind11::module& m)
         .def("get",
              [](observation& obs) { return obs.get_observed_states().get(0); })
         .def("get_position",
-             [](observation& obs) {
-                 return obs.get_observed_states().get(0).get_position();
-             })
+             [](observation& obs)
+             { return obs.get_observed_states().get(0).get_position(); })
         .def("get_velocity",
-             [](observation& obs) {
-                 return obs.get_observed_states().get(0).get_velocity();
-             })
+             [](observation& obs)
+             { return obs.get_observed_states().get(0).get_velocity(); })
         .def("get_iteration", &observation::get_iteration)
         .def("get_time_stamp",
-             [](observation& obs) {
-                 return obs.get_observed_states().get(0).get_time_stamp();
-             })
-        .def("get_ball_id", [](observation& obs) {
-            return obs.get_observed_states().get(0).get_ball_id();
-        });
+             [](observation& obs)
+             { return obs.get_observed_states().get(0).get_time_stamp(); })
+        .def("get_ball_id",
+             [](observation& obs)
+             { return obs.get_observed_states().get(0).get_ball_id(); });
 }
 
 PYBIND11_MODULE(tennicam_client_wrp, m)
