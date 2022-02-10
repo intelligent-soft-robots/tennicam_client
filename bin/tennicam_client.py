@@ -47,7 +47,7 @@ def configure():
         bool,
     )
     change_all = False
-    config.dialog(change_all)
+    config.dialog(change_all, sys.argv[1:])
     print()
     return config
 
