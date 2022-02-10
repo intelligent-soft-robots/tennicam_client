@@ -8,6 +8,7 @@ Required for this executable:
 - first in another terminal :'pam_mujoco tennicam_client_replay'
 """
 
+import sys
 import pathlib
 import o80
 import signal_handler
@@ -49,7 +50,7 @@ def _configure() -> BrightArgs:
         [FileExists],
     )
     change_all = False
-    config.dialog(change_all)
+    config.dialog(change_all, sys.argv[1:])
     print()
     return config
 
