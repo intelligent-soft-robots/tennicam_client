@@ -89,6 +89,7 @@ install_scripts(
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_print.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_display.py
+  ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_display_robot_mirroring.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_transform_update.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_logger.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/tennicam_client_replay.py
