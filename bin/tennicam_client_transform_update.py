@@ -11,7 +11,6 @@ of tennicam_client)
 import tennicam_client
 
 TENNICAM_CLIENT_SEGMENT_ID = "tennicam_client"
-TENNICAM_CLIENT_CONFIG_PATH = "/opt/mpi-is/tennicam_client/config/config.toml"
 
 
 def _update_transform(segment_id: str, dim: int, value: float, translation: bool):
@@ -73,7 +72,7 @@ def user_update_transform(segment_id, config_file_path):
     print()
 
     save = input("\ttype 1 if you wish to save this transform: ")
-    try :
+    try:
         save = int(save)
     except:
         pass
@@ -89,4 +88,6 @@ def user_update_transform(segment_id, config_file_path):
 
 
 if __name__ == "__main__":
-    user_update_transform(TENNICAM_CLIENT_SEGMENT_ID, TENNICAM_CLIENT_CONFIG_PATH)
+    user_update_transform(
+        TENNICAM_CLIENT_SEGMENT_ID, tennicam_client.get_default_config_file()
+    )

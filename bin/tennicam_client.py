@@ -15,13 +15,11 @@ import tennicam_client
 from lightargs import BrightArgs, Positive, FileExists
 
 TENNICAM_CLIENT_DEFAULT_SEGMENT_ID = "tennicam_client"
-TENNICAM_CLIENT_DEFAULT_CONFIG = "/opt/mpi-is/tennicam_client/config/config.toml"
 TENNICAM_CLIENT_DEFAULT_FREQUENCY = 200.0
 
 
 def configure():
     global TENNICAM_CLIENT_DEFAULT_SEGMENT_ID
-    global TENNICAM_CLIENT_DEFAULT_CONFIG
     global TENNICAM_CLIENT_DEFAULT_FREQUENCY
     config = BrightArgs("o80 tennicam client standalone")
     config.add_option(
@@ -32,7 +30,7 @@ def configure():
     )
     config.add_option(
         "config_path",
-        TENNICAM_CLIENT_DEFAULT_CONFIG,
+        tennicam_client.get_default_config_file(),
         "configuration file",
         str,
         [FileExists()],

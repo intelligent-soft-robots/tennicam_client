@@ -24,6 +24,8 @@
   <depend>json_helper</depend>
   <depend>signal_handler</depend>
 
+  <exec_depend>pam_configuration</exec_depend>
+  
   <test_depend>ament_cmake_gtest</test_depend>
   
   <export>

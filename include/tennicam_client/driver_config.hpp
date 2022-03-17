@@ -45,7 +45,7 @@ public:
  * toml_config_file being an absolute path to a toml configuration file,
  * this parses the file and returns the corresponding instance of
  * DriverConfig. Example of toml configuration file:
- * https://github.com/intelligent-soft-robots/tennicam_client/blob/master/config/config.toml
+ * https://github.com/intelligent-soft-robots/pam_configuration/blob/master/config/tennicam_client/config.toml
  */
 DriverConfig parse_toml(const std::string& toml_config_file);
 
