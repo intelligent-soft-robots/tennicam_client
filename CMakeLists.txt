@@ -96,21 +96,6 @@ install_scripts(
   )
 
 
-#######################
-# Configuration files #
-#######################
-
-get_filename_component(TENNICAM_CLIENT_CONFIG_DIR config ABSOLUTE)
-# installing files in /opt/mpi-is/ if exists
-if (EXISTS "/opt/mpi-is/")
-  install(DIRECTORY
-    "${TENNICAM_CLIENT_CONFIG_DIR}" DESTINATION /opt/mpi-is/tennicam_client)
-endif()
-# installing in workspace/install
-install(DIRECTORY
-  "${TENNICAM_CLIENT_CONFIG_DIR}" DESTINATION opt/mpi-is/)
-
-
 ###################
 # Python wrappers #
 ###################
