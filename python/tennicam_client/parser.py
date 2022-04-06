@@ -1,9 +1,23 @@
 import typing
 import pathlib
+import pam_configuration
 
 Position = typing.Sequence[float]
 Velocity = typing.Sequence[float]
 Entry = typing.Tuple[int, int, Position, Velocity]
+
+_CONFIG_FILE_SUFFIX = pathlib.Path("tennicam_client") / "config.toml"
+
+
+def get_default_config_file() -> pathlib.Path:
+    """
+    Returns the absolute path to the default configuration, as it has been
+    installed by the pam_configuration package, i.e.
+    ~/.mpi-is/pam//tennicam_client/config.toml (if it exists) or
+    /opt/mpi-is/pam/tennicam_client/config.toml (otherwise)
+    """
+
+    return pathlib.Path(pam_configuration.get_path()) / _CONFIG_FILE_SUFFIX
 
 
 def parse(filepath: pathlib.Path) -> typing.Generator[Entry, None, bool]:

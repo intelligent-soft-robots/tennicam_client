@@ -48,7 +48,7 @@ public:
      * @brief config is a path to a toml configuration file specifying
      * the tennicam host and port, as well as the transform.
      * See for example:
-     * https://github.com/intelligent-soft-robots/tennicam_client/blob/master/config/config.toml
+     * https://github.com/intelligent-soft-robots/pam_configuration/blob/master/config/tennicam_client/config.toml
      */
     Driver(std::string toml_config_file);
     /** @brief Instantiate a driver in "active transform mode", i.e. at each
