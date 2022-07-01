@@ -71,7 +71,7 @@ def run(segment_id, frequency, config_path, active_transform):
     else:
         active_transform_segment_id = ""
     tennicam_client.start_standalone(
-        segment_id, frequency, False, config_path, active_transform_segment_id
+        segment_id, frequency, False, str(config_path), active_transform_segment_id
     )
 
     logging.info("running, ctrl+c for exiting")
