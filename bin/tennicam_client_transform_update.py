@@ -52,18 +52,21 @@ def user_update_transform(segment_id, config_file_path):
     if translation not in (0, 1):
         raise ValueError("value should be 0 or 1")
 
-    dim = input("\tenter dimension to change (0, 1 or 2): ")
-    dim = int(dim)
-    if dim not in (0, 1, 2):
-        raise ValueError("value should be 0, 1 or 2")
-
-    value = input("\tenter value: ")
-    value = float(value)
+    values = input("\tnew values (three values separated by spaces):")
+    values = values.split(" ")
+    if len(values)!=3:
+        raise ValueError("3 values expected")
+    try:
+        values = [float(v) for v in values]
+    except Exception as e:
+        raise ValueError(f"at least one value could not be cast to float: {e}")
 
     if translation == 0:
-        _update_translation(segment_id, dim, value)
+        for dim,value in enumerate(values):
+            _update_translation(segment_id, dim, value)
     else:
-        _update_rotation(segment_id, dim, value)
+        for dim,value in enumerate(values):
+            _update_rotation(segment_id, dim, value)
 
     transform = tennicam_client.read_transform_from_memory(segment_id)
 
@@ -79,7 +82,7 @@ def user_update_transform(segment_id, config_file_path):
     else:
         if save == 1:
             tennicam_client.update_transform_config_file(
-                config_file_path, transform[0], transform[1]
+                str(config_file_path), transform[0], transform[1]
             )
             print()
             print("transform saved in", config_file_path)
