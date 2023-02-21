@@ -51,7 +51,6 @@ def configure():
 
 
 def run(segment_id, frequency, config_path, active_transform):
-
     log_handler = logging.StreamHandler(sys.stdout)
     logging.basicConfig(
         format=str(

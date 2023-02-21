@@ -22,7 +22,6 @@ TENNICAM_CLIENT_DEFAULT_SEGMENT_ID = "tennicam_client"
 
 
 def _get_handle():
-
     ball = pam_mujoco.MujocoItem(
         "ball", control=pam_mujoco.MujocoItem.CONSTANT_CONTROL, color=(1, 0, 0, 1)
     )
@@ -40,7 +39,6 @@ def _get_handle():
 
 
 def run():
-
     global TENNICAM_CLIENT_DEFAULT_SEGMENT_ID
 
     # configuring and staring mujoco

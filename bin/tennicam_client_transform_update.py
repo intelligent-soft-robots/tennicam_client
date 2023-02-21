@@ -40,7 +40,6 @@ def _print_transform(transform):
 
 
 def user_update_transform(segment_id, config_file_path):
-
     transform = tennicam_client.read_transform_from_memory(segment_id)
 
     print()
@@ -54,7 +53,7 @@ def user_update_transform(segment_id, config_file_path):
 
     values = input("\tnew values (three values separated by spaces):")
     values = values.split(" ")
-    if len(values)!=3:
+    if len(values) != 3:
         raise ValueError("3 values expected")
     try:
         values = [float(v) for v in values]
@@ -62,10 +61,10 @@ def user_update_transform(segment_id, config_file_path):
         raise ValueError(f"at least one value could not be cast to float: {e}")
 
     if translation == 0:
-        for dim,value in enumerate(values):
+        for dim, value in enumerate(values):
             _update_translation(segment_id, dim, value)
     else:
-        for dim,value in enumerate(values):
+        for dim, value in enumerate(values):
             _update_rotation(segment_id, dim, value)
 
     transform = tennicam_client.read_transform_from_memory(segment_id)
