@@ -84,32 +84,32 @@ TEST_F(TennicamClientTests, axis_rotation)
 
     std::array<double, 3> rotation_x;
     rotation_x.fill(0);
-    rotation_x[0] = M_PI;
+    rotation_x[0] = M_PI / 2;
     Transform t_x{translation, rotation_x};
     std::array<double, 3> in_x{0, 1, 1};
     std::array<double, 3> out_x = t_x.apply(in_x);
     ASSERT_DOUBLE_EQ(out_x[0], 0.);
     ASSERT_DOUBLE_EQ(out_x[1], -1.);
-    ASSERT_DOUBLE_EQ(out_x[2], -1.);
+    ASSERT_DOUBLE_EQ(out_x[2], 1.);
 
     std::array<double, 3> rotation_y;
     rotation_y.fill(0);
-    rotation_y[1] = M_PI;
+    rotation_y[1] = M_PI / 2;
     Transform t_y{translation, rotation_y};
     std::array<double, 3> in_y{1, 0, 1};
     std::array<double, 3> out_y = t_y.apply(in_y);
-    ASSERT_DOUBLE_EQ(out_y[0], -1);
+    ASSERT_DOUBLE_EQ(out_y[0], 1);
     ASSERT_DOUBLE_EQ(out_y[1], 0);
     ASSERT_DOUBLE_EQ(out_y[2], -1);
 
     std::array<double, 3> rotation_z;
     rotation_z.fill(0);
-    rotation_z[2] = M_PI;
+    rotation_z[2] = M_PI / 2;
     Transform t_z{translation, rotation_z};
     std::array<double, 3> in_z{1, 1, 0};
     std::array<double, 3> out_z = t_z.apply(in_z);
     ASSERT_DOUBLE_EQ(out_z[0], -1);
-    ASSERT_DOUBLE_EQ(out_z[1], -1);
+    ASSERT_DOUBLE_EQ(out_z[1], 1);
     ASSERT_DOUBLE_EQ(out_z[2], 0);
 }
 
