@@ -13,21 +13,21 @@ Transform::Transform(std::array<double, 3> translation,
     arma::Mat<double> Rx(3, 3, arma::fill::zeros);
     Rx(0, 0) = 1;
     Rx(1, 1) = +cos(rotation[0]);
-    Rx(1, 2) = +sin(rotation[0]);
-    Rx(2, 1) = -sin(rotation[0]);
+    Rx(1, 2) = -sin(rotation[0]);
+    Rx(2, 1) = +sin(rotation[0]);
     Rx(2, 2) = +cos(rotation[0]);
 
     arma::Mat<double> Ry(3, 3, arma::fill::zeros);
     Ry(0, 0) = +cos(rotation[1]);
-    Ry(0, 2) = -sin(rotation[1]);
+    Ry(0, 2) = +sin(rotation[1]);
     Ry(1, 1) = 1;
-    Ry(2, 0) = +sin(rotation[1]);
+    Ry(2, 0) = -sin(rotation[1]);
     Ry(2, 2) = +cos(rotation[1]);
 
     arma::Mat<double> Rz(3, 3, arma::fill::zeros);
     Rz(0, 0) = +cos(rotation[2]);
-    Rz(0, 1) = +sin(rotation[2]);
-    Rz(1, 0) = -sin(rotation[2]);
+    Rz(0, 1) = -sin(rotation[2]);
+    Rz(1, 0) = +sin(rotation[2]);
     Rz(1, 1) = +cos(rotation[2]);
     Rz(2, 2) = 1;
 
