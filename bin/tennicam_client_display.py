@@ -31,10 +31,10 @@ TENNICAM_CLIENT_DEFAULT_SEGMENT_ID = "tennicam_client"
 
 def _get_vicon_table_pose(vicon_segment_id: str) -> Transformation:
     # only import if actually needed
-    import pam_vicon_o80
+    import pam_vicon
 
     logging.info("Get table pose from Vicon (using segment id '%s')", vicon_segment_id)
-    vicon = pam_vicon_o80.PamVicon(vicon_segment_id)
+    vicon = pam_vicon.PamVicon(vicon_segment_id)
     vicon.update()
     return vicon.get_table_pose(yaw_only=True)
 
