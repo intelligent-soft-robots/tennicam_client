@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 Display in a mujoco simulated environment the ball
 as published by tennicam and the robot.
@@ -57,17 +56,16 @@ def configure():
     return config
 
 
-
 def get_hysr_config_path():
     files = get_json_config(expected_keys=["hysr_config"])
     return files["hysr_config"]
+
 
 def configure_simulation(
     mujoco_id=MUJOCO_ID_MIRRORING,
     segment_id=SEGMENT_ID_ROBOT_MIRROR,
     graphics=True,
 ):
-
     accelerated_time = False
     burst_mode = False
 
@@ -75,19 +73,21 @@ def configure_simulation(
     hysr_config = HysrOneBallConfig.from_json(hysr_path)
 
     robot = pam_mujoco.MujocoRobot(
-        segment_id, control=pam_mujoco.MujocoRobot.JOINT_CONTROL,
-        position=hysr_config.robot_position
+        segment_id,
+        control=pam_mujoco.MujocoRobot.JOINT_CONTROL,
+        position=hysr_config.robot_position,
     )
-    
+
     ball = pam_mujoco.MujocoItem(
-    "ball", control=pam_mujoco.MujocoItem.CONSTANT_CONTROL, color=(1, 0, 0, 1))
+        "ball", control=pam_mujoco.MujocoItem.CONSTANT_CONTROL, color=(1, 0, 0, 1)
+    )
     balls = (ball,)
     table = pam_mujoco.MujocoTable(
         "table",
         position=hysr_config.table_position,
-        orientation=hysr_config.table_orientation
+        orientation=hysr_config.table_orientation,
     )
-    
+
     handle = pam_mujoco.MujocoHandle(
         mujoco_id,
         graphics=graphics,
@@ -102,12 +102,9 @@ def configure_simulation(
 
 
 def run():
-
     global TENNICAM_CLIENT_DEFAULT_SEGMENT_ID
 
     config = configure()
-
- 
 
     # running at 100Hz
     frequency = 100.0
@@ -115,7 +112,7 @@ def run():
     duration_ms = o80.Duration_us.microseconds(int((1.0 / frequency) * 1e6))
 
     signal_handler.init()  # for detecting ctrl+c
-    
+
     log_handler = logging.StreamHandler(sys.stdout)
     logging.basicConfig(
         format="[pam mirroring {} {}] %(message)s".format(
@@ -132,9 +129,7 @@ def run():
     )
     pressures = o80_pam.o80Pressures(config.segment_id_real_robot)
 
-    handle = configure_simulation(
-        mujoco_id=config.mujoco_id_mirroring
-    )
+    handle = configure_simulation(mujoco_id=config.mujoco_id_mirroring)
     joints = handle.interfaces[SEGMENT_ID_ROBOT_MIRROR]
 
     # getting a frontend for ball control
@@ -147,7 +142,6 @@ def run():
     frequency_manager = o80.FrequencyManager(config.frequency)
 
     logging.info("starting")
-
 
     signal_handler.init()  # for detecting ctrl+c
     try:
@@ -162,7 +156,7 @@ def run():
                 joints.set(
                     joint_positions, joint_velocities, duration_ms=None, wait=False
                 )
-                
+
                 # getting information from tennicam
                 ball_zmq = frontend.latest()
                 position = ball_zmq.get_position()
@@ -181,10 +175,5 @@ def run():
     print()
 
 
-
-
 if __name__ == "__main__":
     run()
-
-
-
