@@ -9,7 +9,6 @@
 #include <stdexcept>
 #include <tuple>
 #include <zmq.hpp>
-#include <zmqpp/zmqpp.hpp>
 #include "json_helper/json_helper.hpp"
 #include "o80/driver.hpp"
 #include "tennicam_client/ball.hpp"

@@ -5,7 +5,6 @@
 #include <chrono>
 #include <memory>
 #include <zmq.hpp>
-#include <zmqpp/zmqpp.hpp>
 #include "json_helper/json_helper.hpp"
 #include "o80/time.hpp"
 #include "real_time_tools/thread.hpp"
@@ -42,8 +41,8 @@ private:
     void perform(long int num, double x, double y, double z);
 
 private:
-    std::unique_ptr<zmqpp::context> context_;
-    std::unique_ptr<zmqpp::socket> socket_;
+    std::unique_ptr<zmq::context_t> context_;
+    std::unique_ptr<zmq::socket_t> socket_;
     std::atomic<bool> running_;
     real_time_tools::RealTimeThread thread_;
 };
