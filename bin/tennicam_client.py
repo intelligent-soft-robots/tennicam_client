@@ -2,7 +2,7 @@
 
 """
 Instantiate an o80 Standalone for tennicam, i.e.
-this process will subscribed to tennicam and write into the 
+this process will subscribed to tennicam and write into the
 shared memory the related ball information.
 """
 
