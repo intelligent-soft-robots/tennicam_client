@@ -10,9 +10,9 @@ static THREAD_FUNCTION_RETURN_TYPE run_helper(void* arg)
 
 DummyServer::DummyServer(const DriverConfig& config) : running_{false}
 {
-    context_ = std::make_unique<zmqpp::context>();
-    auto socket_type = zmqpp::socket_type::pub;
-    socket_ = std::make_unique<zmqpp::socket>(*(context_), socket_type);
+    context_ = std::make_unique<zmq::context_t>(1);
+    auto socket_type = zmq::socket_type::pub;
+    socket_ = std::make_unique<zmq::socket_t>(*context_, socket_type);
     socket_->bind(config.get_url());
 }
 
@@ -34,9 +34,9 @@ void DummyServer::perform(long int num, double x, double y, double z)
                 {"time", o80::time_now().count()},
                 {"proc_time", 1},
                 {"obs", obs}};
-    zmqpp::message msg;
-    msg << jframe.dump();
-    socket_->send(msg);
+
+    zmq::message_t msg(jframe.dump());
+    socket_->send(msg, zmq::send_flags::none);
 }
 
 void DummyServer::start()
